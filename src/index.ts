@@ -10,7 +10,7 @@ export function calculateGameScore(line: Line): number {
         const [firstTry, secondTry] = currentValue;
         if (typeof firstTry === "number" && typeof secondTry === "number") {
             if (firstTry + secondTry > 10) {
-                throw new Error(`Max 10 points , you try to strike ${firstTry} and ${secondTry}`)
+                throw new Error(`Max 10 points in each frame`)
             } else {
                 acc += firstTry;
                 acc += secondTry;
