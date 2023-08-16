@@ -6,21 +6,28 @@ type Frame = [Trial, Trial]
 export type Line = [Frame, Frame, Frame, Frame, Frame] | [Frame, Frame, Frame, Frame, Frame, Frame]
 
 export function calculateGameScore(line: Line): number {
-    return line.reduce((acc: number, currentValue: Frame) => {
+    return line.reduce((acc: number, currentValue: Frame, currentIndex: number) => {
         const [firstTry, secondTry] = currentValue;
         if (typeof firstTry === "number" && typeof secondTry === "number") {
             if (firstTry + secondTry > 10) {
-                throw new Error(`Max 10 points in each frame`)
+                throw new Error(`Max 10 points in each frame`);
+            } else if (firstTry + secondTry === 10) {
+                const nextFrameIndex = currentIndex + 1;
+                const nextFrame = line[nextFrameIndex];
+                const bonus = nextFrame[0];
+
+                if (typeof bonus === 'number') {
+                    acc += 10 + bonus;
+                } else if (bonus === 'X') {
+                    acc += 10 + 10;
+                }
             } else {
-                acc += firstTry;
-                acc += secondTry;
-                console.log(`frame score ${firstTry} + ${secondTry}`)
+                acc += firstTry+secondTry;
+             
+                console.log(`frame score ${firstTry} + ${secondTry}`);
             }
         }
-
 
         return acc;
     }, 0);
 }
-
-
